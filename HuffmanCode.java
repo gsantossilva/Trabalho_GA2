@@ -1,6 +1,13 @@
 package Trabalho_GA2;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
+
+import Book.Book;
 
 public class HuffmanCode {
 	/*
@@ -44,6 +51,70 @@ public class HuffmanCode {
 	 * Parâmetro de Entrada:  charFreqs: array com quantidade de frequências de cada letra
 	 * Parâmetro de Saída:    trees: Árvore binária para a compactação e decodificação  
 	 */
+	
+	 public void load(String f) throws IOException {
+	        File filename = new File (f);
+	        try {
+	            FileReader fr = new FileReader(filename);
+	            BufferedReader br = new BufferedReader(fr);
+	            String line;
+	            String[] a;
+	            System.out.println("\f Separando os dados:");
+	            while ((line = br.readLine()) != null) {
+	                
+	                a = line.split(";");
+	               
+	                //Book j = new Book (a[0], a[1], a[2], a[3], Double.parseDouble(a[4]));
+	                /*System.out.println("Titulo : " + a[0]);
+	                System.out.println("Isbn : "+ (a[1]));
+	                System.out.println("Editora : "+ (a[2]));
+	                System.out.println("Url : "+ (a[3]));
+	                System.out.println("PreÃ§o : "+ (a[4]));
+	                System.out.println("");*/
+	               
+	                    //d[pos] = j;
+
+	                    //System.out.println(d[pos]);
+	                    //pos++;
+	                
+	            }
+	            br.close();
+	        } catch (FileNotFoundException e) {
+	            System.out.println("Arquivo nÃ£o existe.");
+	        } catch (IOException e) {
+	            System.out.println("Erro na leitura do arquivo");
+	        }
+	        
+	    }
+	 
+	 public void read(String file) {
+	            String filename = "C:/ProgII/livro.txt";
+	     
+	        try {
+	            FileReader fr = new FileReader(filename);
+	            BufferedReader br = new BufferedReader(fr);
+	            String line;
+	            String[] a;
+	            System.out.println("\f Separando os dados:");
+	            while ((line = br.readLine()) != null) {
+	                a = line.split(";");
+	              
+	                System.out.println("Titulo : " + a[0]);
+	                System.out.println("Isbn : "+ (a[1]));
+	                System.out.println("Editora : "+ (a[2]));
+	                System.out.println("Url : "+ (a[3]));
+	                System.out.println("PreÃ§o : "+ (a[4]));
+	                System.out.println("");
+	               
+	            }
+	            br.close();
+	        } catch (FileNotFoundException e) {
+	            System.out.println("Arquivo nÃ£o existe.");
+	        } catch (IOException e) {
+	            System.out.println("Erro na leitura do arquivo");
+	        }
+	    }
+	
     public static HuffmanTree buildTree(int[] charFreqs) {
     	// Cria uma Fila de Prioridade 
     	// A Fila será criado pela ordem de frequência da letra no texto
