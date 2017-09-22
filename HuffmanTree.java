@@ -1,4 +1,4 @@
-package Trab_GrauA_2;
+package Trabalho_GA2;
 
 /*
  * Classe abstrata da Árvore 
