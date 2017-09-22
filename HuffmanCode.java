@@ -19,19 +19,22 @@ public class HuffmanCode {
 	 *  Para implementar o Algoritmo de Huffman é necessário conhecer as árvores binárias. 
 	 */
 	public static void main(String[] args) throws IOException {
-		//read("C:/ProgII/livro.txt");
-		//burn();
-		//System.out.println(encode("imortal tricolor"));
-		System.out.println(decode(encode("imortal tricolor")));
+
+		String test = "imortal tricolor";
+		int[] charFreqs = new int[256];
+		for (char c : test.toCharArray())
+			charFreqs[c]++;
+
+		HuffmanTree tree = buildTree(charFreqs);
+
+		decode(tree, encode(tree, test));
+		//burn(encode(tree, test));
+		//decode(tree, read("C:/ProgII/teste.txt"));
+		//encode(tree, "imortal tricolor");
+
 	}
 
-	/* Criar a árvore de Codificação - A partir da quantidade de frequências de cada letra 
-	 *                                 cria-se uma árvore binária para a compactação do texto
-	 * Parâmetro de Entrada:  charFreqs: array com quantidade de frequências de cada letra
-	 * Parâmetro de Saída:    trees: Árvore binária para a compactação e decodificação  
-	 */
-
-	public static void burn() throws IOException {
+	public static void burn(String name) throws IOException {
 		// Grava livro nos arquivo txt
 		File m;
 		m = new File("C:/ProgII/teste.txt");
@@ -39,18 +42,14 @@ public class HuffmanCode {
 		try {
 			FileWriter fw = new FileWriter(m, true);
 			PrintWriter pw = new PrintWriter(fw);
-			Scanner scanner = new Scanner(System.in);
-			System.out.print("Digite a palavra que deseja compactar : ");
-			String k = scanner.next();
-			String line;
-			for (int i = 0; i <= k.length(); i++) {
-				// if (i < k ) { 
-				String palavra;
-				System.out.print("Digite a palavra : ");
-				palavra = scanner.nextLine();
-				pw.println(palavra);
 
-				/*} else if (i == k) {
+			String line;
+			//for (int i = 0; i <= name.length(); i++) {
+			// if (i < k ) { 
+			String palavra = name;
+			pw.println(palavra);
+
+			/*} else if (i == k) {
                  String palavra;
                  System.out.print("Digite uma palavra: ");
                  palavra = scanner.nextLine()-1;
@@ -58,31 +57,32 @@ public class HuffmanCode {
 
              }*/
 
-			}
+			//}
 			pw.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao gravar no arquivo.");
 		}
 	}
 
-	public static void read(String file) {
-		String filename = "C:/ProgII/livro.txt";
-
+	public static String read(String file) {
+		String filename = "C:/ProgII/teste.txt";
+		String code = "";
 		try {
 			FileReader fr = new FileReader(filename);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			String[] a;
-			System.out.println("\f Separando os dados:");
+
 			while ((line = br.readLine()) != null) {
 				a = line.split(";");
+				//System.out.println("Titulo : " + a[0]);
+				//System.out.println("Isbn : "+ (a[1]));
+				//System.out.println("Editora : "+ (a[2]));
+				//System.out.println("Url : "+ (a[3]));
+				//System.out.println("PreÃ§o : "+ (a[4]));
+				//System.out.println("");
 
-				System.out.println("Titulo : " + a[0]);
-				System.out.println("Isbn : "+ (a[1]));
-				System.out.println("Editora : "+ (a[2]));
-				System.out.println("Url : "+ (a[3]));
-				System.out.println("PreÃ§o : "+ (a[4]));
-				System.out.println("");
+				code = a[0];
 
 			}
 			br.close();
@@ -91,6 +91,7 @@ public class HuffmanCode {
 		} catch (IOException e) {
 			System.out.println("Erro na leitura do arquivo");
 		}
+		return code;
 	}
 
 	public static HuffmanTree buildTree(int[] charFreqs) {
@@ -121,33 +122,19 @@ public class HuffmanCode {
 	 *     						  encode - Texto original 
 	 *     Parâmetros de Saída: encodeText- Texto Compactado
 	 */ 
-	public static String encode(String name){
-		
-		int[] charFreqs = new int[256];
-		for (char c : name.toCharArray())
-			charFreqs[c]++;
-
-		// Criar a Árvore dos códigos para a Compactação
-		
-		HuffmanTree tree = buildTree(charFreqs);
-
-		// Resultados das quantidade e o código da Compactação
-		
-		System.out.println("TABELA DE CÓDIGOS");
-		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO");
-		printCodes(tree, new StringBuffer());
-
-		// Mostrar o texto Compactado
-		
-		System.out.println("\nTEXTO COMPACTADO");
-		//System.out.println(encode); // Tamanho de 40 bits - Economia de 72 bits
-
+	public static String encode(HuffmanTree tree, String name){
 		assert tree != null;
+
+		System.out.println("CODIFICANDO \n");
+		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO\n");
+		printCodes(tree, new StringBuffer());
 
 		String encodeText = "";
 		for (char c : name.toCharArray()){
 			encodeText+=(getCodes(tree, new StringBuffer(),c));
 		}
+		System.out.println("\nTEXTO COMPACTADO\n");
+		System.out.println(encodeText+"\n");
 		return encodeText; // Retorna o texto Compactado
 	}
 
@@ -157,24 +144,11 @@ public class HuffmanCode {
 	 *     						  encode - Texto Compactado
 	 *     Parâmetros de Saída: decodeText- Texto decodificado
 	 */
-	public static String decode(String name) {
-		
-		int[] charFreqs = new int[256];
-		for (char c : name.toCharArray())
-			charFreqs[c]++;
+	public static String decode(HuffmanTree tree, String name) {
 
-		// Criar a Árvore dos códigos para a Compactação
-		
-		HuffmanTree tree = buildTree(charFreqs);
-
-		// Resultados das quantidade e o código da Compactação
-		
-		System.out.println("TABELA DE CÓDIGOS");
-		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO");
-		printCodes(tree, new StringBuffer());
-
-		
 		assert tree != null;
+
+		System.out.println("\nTEXTO DECODIFICADO\n");
 
 		String decodeText="";
 		HuffmanNode node = (HuffmanNode)tree;
@@ -195,6 +169,7 @@ public class HuffmanCode {
 				}
 			}
 		} // End for
+		System.out.println(decodeText+"\n");
 		return decodeText; // Retorna o texto Decodificado
 	}    
 
