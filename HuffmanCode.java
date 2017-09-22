@@ -19,43 +19,10 @@ public class HuffmanCode {
 	 *  Para implementar o Algoritmo de Huffman é necessário conhecer as árvores binárias. 
 	 */
 	public static void main(String[] args) throws IOException {
-		
-		// Texto exemplo para Compactar e Decodificação usando o Algoritmo de Huffman
-		
-		String test = "imortal tricolor"; // Tamanho do texto = 112 bits 
-
-		// Neste exemplo será considerado que teremos no máximo 256 caracteres diferentes
-		// Passo 1 - Percorre o texto contando os símbolos e montando um vetor de frequências.
-		
-		int[] charFreqs = new int[256];
-		for (char c : test.toCharArray())
-			charFreqs[c]++;
-
-		// Criar a Árvore dos códigos para a Compactação
-		
-		HuffmanTree tree = buildTree(charFreqs);
-
-		// Resultados das quantidade e o código da Compactação
-		
-		System.out.println("TABELA DE CÓDIGOS");
-		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO");
-		printCodes(tree, new StringBuffer());
-
-		// Compactar o texto
-		
-		String encode = encode(tree,test);
-		// Mostrar o texto Compactado
-		
-		System.out.println("\nTEXTO COMPACTADO");
-		System.out.println(encode); // Tamanho de 40 bits - Economia de 72 bits
-
-		// Decodificar o texto
-		
-		System.out.println("\n\nTEXTO DECODIFICADO");
-		System.out.println(decode(tree,encode));
-
 		//read("C:/ProgII/livro.txt");
-		burn();
+		//burn();
+		//System.out.println(encode("imortal tricolor"));
+		System.out.println(decode(encode("imortal tricolor")));
 	}
 
 	/* Criar a árvore de Codificação - A partir da quantidade de frequências de cada letra 
@@ -154,11 +121,31 @@ public class HuffmanCode {
 	 *     						  encode - Texto original 
 	 *     Parâmetros de Saída: encodeText- Texto Compactado
 	 */ 
-	public static String encode(HuffmanTree tree, String encode){
+	public static String encode(String name){
+		
+		int[] charFreqs = new int[256];
+		for (char c : name.toCharArray())
+			charFreqs[c]++;
+
+		// Criar a Árvore dos códigos para a Compactação
+		
+		HuffmanTree tree = buildTree(charFreqs);
+
+		// Resultados das quantidade e o código da Compactação
+		
+		System.out.println("TABELA DE CÓDIGOS");
+		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO");
+		printCodes(tree, new StringBuffer());
+
+		// Mostrar o texto Compactado
+		
+		System.out.println("\nTEXTO COMPACTADO");
+		//System.out.println(encode); // Tamanho de 40 bits - Economia de 72 bits
+
 		assert tree != null;
 
 		String encodeText = "";
-		for (char c : encode.toCharArray()){
+		for (char c : name.toCharArray()){
 			encodeText+=(getCodes(tree, new StringBuffer(),c));
 		}
 		return encodeText; // Retorna o texto Compactado
@@ -170,12 +157,28 @@ public class HuffmanCode {
 	 *     						  encode - Texto Compactado
 	 *     Parâmetros de Saída: decodeText- Texto decodificado
 	 */
-	public static String decode(HuffmanTree tree, String encode) {
+	public static String decode(String name) {
+		
+		int[] charFreqs = new int[256];
+		for (char c : name.toCharArray())
+			charFreqs[c]++;
+
+		// Criar a Árvore dos códigos para a Compactação
+		
+		HuffmanTree tree = buildTree(charFreqs);
+
+		// Resultados das quantidade e o código da Compactação
+		
+		System.out.println("TABELA DE CÓDIGOS");
+		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO");
+		printCodes(tree, new StringBuffer());
+
+		
 		assert tree != null;
 
 		String decodeText="";
 		HuffmanNode node = (HuffmanNode)tree;
-		for (char code : encode.toCharArray()){
+		for (char code : name.toCharArray()){
 			if (code == '0'){ // Quando for igual a 0 é o Lado Esquerdo
 				if (node.left instanceof HuffmanLeaf) { 
 					decodeText += ((HuffmanLeaf)node.left).value; // Retorna o valor do nó folha, pelo lado Esquerdo  
