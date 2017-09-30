@@ -1,4 +1,4 @@
-package Trabalho_GA2;
+package Trab_GA2;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -9,18 +9,17 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
-import Book.Book;
 
 public class HuffmanCode {
 	/*
-	 * ImplementaÁ„o do Algoritmo de Huffman
-	 * CompactaÁ„o e DescompataÁ„o de um texto
+	 * Implementa√ß√£o do Algoritmo de Huffman
+	 * Compacta√ß√£o e Descompata√ß√£o de um texto
 	 * 
-	 *  Para implementar o Algoritmo de Huffman È necess·rio conhecer as ·rvores bin·rias. 
+	 *  Para implementar o Algoritmo de Huffman √© necess√°rio conhecer as √°rvores bin√°rias. 
 	 */
 	public static void main(String[] args) throws IOException {
 
-		String test = "gremio";
+		String test = "imorta tricolor";
 		int[] charFreqs = new int[256];
 		for (char c : test.toCharArray())
 			charFreqs[c]++;
@@ -35,22 +34,20 @@ public class HuffmanCode {
 		//System.out.println("Binario Conversao -> "+saida);
 
 
-
+		//		USAR
+		
 		//System.out.println(ASCII);
-		//saida = Integer.toBinaryString(c);//Convertendo cÛdigo ASCII para representaÁ„o bin·ria
-		//System.out.println("BINARIO -> "+saida);//String com representaÁ„o bin·ria
+		//saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+		//System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
 
 		/*String entrada = "01000001";
 		int c = Integer.parseInt(entrada, 2);//Converter BINARIO PARA DECIMAL
-		System.out.println("DECIMAL -> "+c);//CÛdigo ASCII
+		System.out.println("DECIMAL -> "+c);//C√≥digo ASCII
 		Character ch = Character.toString((char)c).charAt(0);
-		System.out.println("ASCII -> "+ch);//RepresentaÁ„o ASCII
-
-
-		String saida = Integer.toBinaryString(c);//Convertendo cÛdigo ASCII para representaÁ„o bin·ria
-		//String saida = Integer.toBinaryString((int)ch.charValue());//Ou poderia converter a partir do Character para Bin·rio
-		System.out.println("BINARIO -> "+saida);//String com representaÁ„o bin·ria
-
+		System.out.println("ASCII -> "+ch);//Representa√ß√£o ASCII
+		String saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+		//String saida = Integer.toBinaryString((int)ch.charValue());//Ou poderia converter a partir do Character para Bin√°rio
+		System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
 		 */
 
 		//hexToAscii(binarioToHex(tree, encode(tree, test)));
@@ -82,7 +79,6 @@ public class HuffmanCode {
                  System.out.print("Digite uma palavra: ");
                  palavra = scanner.nextLine()-1;
                  pw.println(palavra);
-
              }*/
 
 			//}
@@ -107,7 +103,7 @@ public class HuffmanCode {
 				//System.out.println("Isbn : "+ (a[1]));
 				//System.out.println("Editora : "+ (a[2]));
 				//System.out.println("Url : "+ (a[3]));
-				//System.out.println("Pre√ßo : "+ (a[4]));
+				//System.out.println("Pre√É¬ßo : "+ (a[4]));
 				//System.out.println("");
 
 				code = a[0];
@@ -115,7 +111,7 @@ public class HuffmanCode {
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
-			System.out.println("Arquivo n√£o existe.");
+			System.out.println("Arquivo n√É¬£o existe.");
 		} catch (IOException e) {
 			System.out.println("Erro na leitura do arquivo");
 		}
@@ -124,36 +120,36 @@ public class HuffmanCode {
 
 	public static HuffmanTree buildTree(int[] charFreqs) {
 		// Cria uma Fila de Prioridade 
-		// A Fila ser· criado pela ordem de frequÍncia da letra no texto
+		// A Fila ser√° criado pela ordem de frequ√™ncia da letra no texto
 		PriorityQueue<HuffmanTree> trees = new PriorityQueue<HuffmanTree>();
-		// Criar as Folhas da ¡rvore para cada letra 
+		// Criar as Folhas da √Årvore para cada letra 
 		for (int i = 0; i < charFreqs.length; i++){
 			if (charFreqs[i] > 0)
-				trees.offer(new HuffmanLeaf(charFreqs[i], (char)i)); // Inser os elementos, nÛ folha, na fila de prioridade
+				trees.offer(new HuffmanLeaf(charFreqs[i], (char)i)); // Inser os elementos, n√≥ folha, na fila de prioridade
 		}
 		// Percorre todos os elementos da fila
-		// Criando a ·rvore bin·ria de baixo para cima
+		// Criando a √°rvore bin√°ria de baixo para cima
 		while (trees.size() > 1) {
-			// Pega os dois nÛs com menor frequÍncia
-			HuffmanTree a = trees.poll(); // poll - Retorna o prÛximo nÛ da Fila ou NULL se n„o tem mais
-			HuffmanTree b = trees.poll(); // poll - Retorna o prÛximo nÛ da Fila ou NULL se n„o tem mais
+			// Pega os dois n√≥s com menor frequ√™ncia
+			HuffmanTree a = trees.poll(); // poll - Retorna o pr√≥ximo n√≥ da Fila ou NULL se n√£o tem mais
+			HuffmanTree b = trees.poll(); // poll - Retorna o pr√≥ximo n√≥ da Fila ou NULL se n√£o tem mais
 
-			// Criar os nÛs da ·rvore bin·ria
+			// Criar os n√≥s da √°rvore bin√°ria
 			trees.offer(new HuffmanNode(a, b)); 
 		}
-		// Retorna o primeiro nÛ da ·rvore
+		// Retorna o primeiro n√≥ da √°rvore
 		return trees.poll();
 	}
 
 	/* COMPACTAR a string 
-	 *     Par‚metros de Entrada: tree - Raiz da ¡rvore de compactaÁ„o
+	 *     Par√¢metros de Entrada: tree - Raiz da √Årvore de compacta√ß√£o
 	 *     						  encode - Texto original 
-	 *     Par‚metros de SaÌda: encodeText- Texto Compactado
+	 *     Par√¢metros de Sa√≠da: encodeText- Texto Compactado
 	 */ 
 	public static String encode(HuffmanTree tree, String name){
 		assert tree != null;
 
-		System.out.println("SÕMBOLO\tQUANTIDADE\tHUFFMAN C”DIGO\n");
+		System.out.println("S√çMBOLO\tQUANTIDADE\tHUFFMAN C√ìDIGO\n");
 		printCodes(tree, new StringBuffer());
 
 		String encodeText = "";
@@ -166,10 +162,13 @@ public class HuffmanCode {
 	}
 
 	public static String binarioToASCII(String b) {
+		//		PRONTO AT√â
 		String ASCII = "";
 		String salva = "0";
 		int contador = 0;
 		int cont = 0;
+		int value=0;
+		char[] aux = new char[8];
 
 		char[] buffer = new char[b.length()];
 
@@ -181,27 +180,42 @@ public class HuffmanCode {
 		for(int i = 0; i < b.length(); i++) {
 			contador = i;
 			if((i % 8) == 0) {
-				for(int j = 0; j < i; j++) {
-					salva += buffer[j];
+				if(i == 8 ) {
+					for(int j = 0; j < i; j++) {
+						salva += buffer[j];
+					}
+					int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
+					Character ch = Character.toString((char)c).charAt(0);
+					ASCII += ch;
+					String saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+					System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
+					salva = "";
+					cont+=8;
 				}
-				int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
-				Character ch = Character.toString((char)c).charAt(0);
-				ASCII += ch;
-				String saida = Integer.toBinaryString(c);//Convertendo cÛdigo ASCII para representaÁ„o bin·ria
-				System.out.println("BINARIO -> "+saida);//String com representaÁ„o bin·ria
-				salva = "";
-				cont+=8;
-
+				else if((i % 8) == 0 && i > 8) {
+					for(int j = cont; j < i; j++) {
+						salva += buffer[j];
+					}
+					int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
+					Character ch = Character.toString((char)c).charAt(0);
+					ASCII += ch;
+					String saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+					System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
+					salva = "";
+					cont+=8;
+				}
 			}
-		}	
-		if(contador < b.length()) {
-			salva += buffer[contador++];
 		}
-		else {
-			int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
-			Character ch = Character.toString((char)c).charAt(0);
-			ASCII += ch;
-		}
+		//	AQUI
+		
+		//		FAZER 
+		
+			int calc = 8 - salva.length();
+			for(int i = 0; i < salva.length(); i++) {
+				aux[i] = salva.charAt(i);
+				System.out.println("posicao -> "+i +" Valor -> "+aux[i]);
+			}
+		
 		System.out.println("ASCII -> "+ASCII);
 		return ASCII;
 	}
@@ -221,8 +235,8 @@ public class HuffmanCode {
 				int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
 				Character ch = Character.toString((char)c).charAt(0);
 				ASCII += ch;
-				String saida = Integer.toBinaryString(c);//Convertendo cÛdigo ASCII para representaÁ„o bin·ria
-				System.out.println("BINARIO -> "+saida);//String com representaÁ„o bin·ria
+				String saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+				System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
 				salva = "";
 				cont+=8;
 			}
@@ -230,8 +244,8 @@ public class HuffmanCode {
 				int c = Integer.parseInt(salva, 2);				//Converter BINARIO PARA DECIMAL
 				Character ch = Character.toString((char)c).charAt(0);
 				ASCII += ch;
-				String saida = Integer.toBinaryString(c);//Convertendo cÛdigo ASCII para representaÁ„o bin·ria
-				System.out.println("BINARIO -> "+saida);//String com representaÁ„o bin·ria
+				String saida = Integer.toBinaryString(c);//Convertendo c√≥digo ASCII para representa√ß√£o bin√°ria
+				System.out.println("BINARIO -> "+saida);//String com representa√ß√£o bin√°ria
 			}
 		}
 		return binario;
@@ -239,12 +253,12 @@ public class HuffmanCode {
 
 
 	/* DECODIFICAR a string
-	 *     Par‚metros de Entrada: tree - Raiz da ¡rvore de compactaÁ„o
+	 *     Par√¢metros de Entrada: tree - Raiz da √Årvore de compacta√ß√£o
 	 *     						  encode - Texto Compactado
-	 *     Par‚metros de SaÌda: decodeText- Texto decodificado
+	 *     Par√¢metros de Sa√≠da: decodeText- Texto decodificado
 	 */
 	public static String decode(HuffmanTree tree, String name) {
-
+		
 		assert tree != null;
 
 		System.out.println("\nTEXTO DECODIFICADO\n");
@@ -252,19 +266,19 @@ public class HuffmanCode {
 		String decodeText="";
 		HuffmanNode node = (HuffmanNode)tree;
 		for (char code : name.toCharArray()){
-			if (code == '0'){ // Quando for igual a 0 È o Lado Esquerdo
+			if (code == '0'){ // Quando for igual a 0 √© o Lado Esquerdo
 				if (node.left instanceof HuffmanLeaf) { 
-					decodeText += ((HuffmanLeaf)node.left).value; // Retorna o valor do nÛ folha, pelo lado Esquerdo  
-					node = (HuffmanNode)tree; // Retorna para a RaÌz da ·rvore
+					decodeText += ((HuffmanLeaf)node.left).value; // Retorna o valor do n√≥ folha, pelo lado Esquerdo  
+					node = (HuffmanNode)tree; // Retorna para a Ra√≠z da √°rvore
 				}else{
-					node = (HuffmanNode) node.left; // Continua percorrendo a ·rvore pelo lado Esquerdo 
+					node = (HuffmanNode) node.left; // Continua percorrendo a √°rvore pelo lado Esquerdo 
 				}
-			}else if (code == '1'){ // Quando for igual a 1 È o Lado Direito
+			}else if (code == '1'){ // Quando for igual a 1 √© o Lado Direito
 				if (node.right instanceof HuffmanLeaf) {
-					decodeText += ((HuffmanLeaf)node.right).value; //Retorna o valor do nÛ folha, pelo lado Direito
-					node = (HuffmanNode)tree; // Retorna para a RaÌz da ·rvore
+					decodeText += ((HuffmanLeaf)node.right).value; //Retorna o valor do n√≥ folha, pelo lado Direito
+					node = (HuffmanNode)tree; // Retorna para a Ra√≠z da √°rvore
 				}else{
-					node = (HuffmanNode) node.right; // Continua percorrendo a ·rvore pelo lado Direito
+					node = (HuffmanNode) node.right; // Continua percorrendo a √°rvore pelo lado Direito
 				}
 			}
 		} // End for
@@ -273,8 +287,8 @@ public class HuffmanCode {
 	}    
 
 	/* 
-	 * MÈtodo para percorrer a ¡rvore e mostra a tabela de compactaÁ„o
-	 *     Par‚metros de Entrada: tree - Raiz da ¡rvore de compactaÁ„o
+	 * M√©todo para percorrer a √Årvore e mostra a tabela de compacta√ß√£o
+	 *     Par√¢metros de Entrada: tree - Raiz da √Årvore de compacta√ß√£o
 	 *     						  prefix - texto codificado com 0 e/ou 1
 	 */
 	public static void printCodes(HuffmanTree tree, StringBuffer prefix) {
@@ -302,11 +316,11 @@ public class HuffmanCode {
 	}
 
 	/* 
-	 * MÈtodo para retornar o cÛdigo compactado de uma letra (w)
-	 *     Par‚metros de Entrada: tree - Raiz da ¡rvore de compactaÁ„o
+	 * M√©todo para retornar o c√≥digo compactado de uma letra (w)
+	 *     Par√¢metros de Entrada: tree - Raiz da √Årvore de compacta√ß√£o
 	 *     						  prefix - texto codificado com 0 e/ou 1
 	 *     						  w - Letra
-	 *     Par‚metros de SaÌda: prefix- Letra codificada
+	 *     Par√¢metros de Sa√≠da: prefix- Letra codificada
 	 */
 	public static String getCodes(HuffmanTree tree, StringBuffer prefix, char w) {
 		assert tree != null;
