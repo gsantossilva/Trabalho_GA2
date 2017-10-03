@@ -19,7 +19,7 @@ public class HuffmanCode {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		String test = "mais faceiro que gordo de camiseta nova";
+		String test = "Esta quase quase o trabalho, chupaa gilberto";
 		int[] charFreqs = new int[256];
 		for (char c : test.toCharArray())
 			charFreqs[c]++;
@@ -30,26 +30,6 @@ public class HuffmanCode {
 		String ascii = binarioToASCII(palavra);
 
 		decode(tree, ascii);
-		//int t = Integer.parseInt(ascii);
-		//String saida = Integer.toBinaryString(t);
-		//System.out.println("Binario Conversao -> "+saida);
-
-
-		//		USAR
-
-		//System.out.println(ASCII);
-		//saida = Integer.toBinaryString(c);//Convertendo código ASCII para representação binária
-		//System.out.println("BINARIO -> "+saida);//String com representação binária
-
-		/*String entrada = "01000001";
-		int c = Integer.parseInt(entrada, 2);//Converter BINARIO PARA DECIMAL
-		System.out.println("DECIMAL -> "+c);//Código ASCII
-		Character ch = Character.toString((char)c).charAt(0);
-		System.out.println("ASCII -> "+ch);//Representação ASCII
-		String saida = Integer.toBinaryString(c);//Convertendo código ASCII para representação binária
-		//String saida = Integer.toBinaryString((int)ch.charValue());//Ou poderia converter a partir do Character para Binário
-		System.out.println("BINARIO -> "+saida);//String com representação binária
-		 */
 
 	}
 
