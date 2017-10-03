@@ -1,4 +1,4 @@
-package Trabalho_GA2;
+package Trab_GA2;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -19,7 +19,7 @@ public class HuffmanCode {
 	 */
 	public static void main(String[] args) throws IOException {
 
-		String test = "imorta tricolor";
+		String test = "mais faceiro que gordo de camiseta nova";
 		int[] charFreqs = new int[256];
 		for (char c : test.toCharArray())
 			charFreqs[c]++;
@@ -50,13 +50,6 @@ public class HuffmanCode {
 		//String saida = Integer.toBinaryString((int)ch.charValue());//Ou poderia converter a partir do Character para Binário
 		System.out.println("BINARIO -> "+saida);//String com representação binária
 		 */
-
-		//hexToAscii(binarioToHex(tree, encode(tree, test)));
-		//binarioToHex(tree, "0101011111001001101011110010000010101011101111100");
-		//decode(tree, encode(tree, test));
-		//burn(encode(tree, test));
-		//decode(tree, read("C:/ProgII/teste.txt"));
-		//encode(tree, "imortal tricolor");
 
 	}
 
@@ -156,6 +149,7 @@ public class HuffmanCode {
 		String encodeText = "";
 		for (char c : name.toCharArray()){
 			encodeText+=(getCodes(tree, new StringBuffer(),c));
+			//System.out.println("Encode Text -> "+encodeText);
 		}
 		System.out.println("\nTEXTO COMPACTADO\n");
 		System.out.println("\nBinario -> "+encodeText+"\n");
@@ -168,8 +162,6 @@ public class HuffmanCode {
 		String salva = "";
 		int contador = 0;
 		int cont = 0;
-
-		char[] aux = new char[8];
 
 		char[] buffer = new char[b.length()];
 
@@ -186,11 +178,11 @@ public class HuffmanCode {
 						salva += buffer[j];
 					}
 					int c = Integer.parseInt(salva, 2);		//Converter BINARIO PARA ASCIII
-					System.out.println("C -> "+c);
+					//System.out.println("C -> "+c);
 					Character ch = Character.toString((char)c).charAt(0);
-					System.out.println("Ch -> "+ch);
+					//System.out.println("Ch -> "+ch);
 					String saida = Integer.toBinaryString(c);//Convertendo código ASCII para representação binária
-					System.out.println("BINARIO -> "+saida);//String com representação binária
+					//System.out.println("BINARIO -> "+saida);//String com representação binária
 					ASCII += ch;
 					salva = "";
 					cont+=8;
@@ -199,27 +191,24 @@ public class HuffmanCode {
 					for(int j = cont; j < i; j++) {
 						salva += buffer[j];
 					}
-					int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
+					//Converter BINARIO PARA DECIMAL
+					int c = Integer.parseInt(salva, 2);	
 					Character ch = Character.toString((char)c).charAt(0);
 					ASCII += ch;
-
 					salva = "";
 					cont+=8;
 				}
 			}
 		}
-		//	AQUI
 
-		//		FAZER 
-
-		int calc = 8 - salva.length();
-		for(int i = 0; i <= calc; i++) {
-			//salva += "0";
-			//aux[i] = salva.charAt(i);
-			//System.out.println("posicao -> "+i +" Valor -> "+aux[i]);
+		for(int i = contador; i < b.length(); i++) {
+				salva += buffer[i];
 		}
-		//System.out.println("TESTE "+salva);
-
+			int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
+			//System.out.println("Decimal "+c);
+			Character ch = Character.toString((char)c).charAt(0);
+			ASCII += ch;
+			
 		System.out.println("ASCII -> "+ASCII);
 		return ASCII;
 	}
@@ -233,20 +222,19 @@ public class HuffmanCode {
 	public static String decode(HuffmanTree tree, String name) {
 		String saida = "";
 		String binario = "";
-		
-		char[] manipula = new char[8];
+
 		assert tree != null;
-		
+
 		System.out.println("\nTEXTO DECODIFICADO\n");
 
 		char[] buffer = new char[name.length()];
 
+		//System.out.println("LENGTH "+name.length());
+
 		for(int i = 0; i < name.length(); i++) {
-			int cont = 0;
-			int count = 0;
 			int sub = 0;
 			String guarda = "";
-			
+
 			//	Passa a string ASCII para um array de char
 			buffer[i] = name.charAt(i);
 			//System.out.println("posicao -> "+i +" Valor -> "+buffer[i]);
@@ -256,8 +244,8 @@ public class HuffmanCode {
 			//	Converte DECIMAL EM BINARIO
 			saida = Integer.toBinaryString(c);
 			//System.out.println("Arrumar zeros -> "+saida);
-			
-			if(saida.length() != 8) {
+
+			if(saida.length() != 8) {		
 				sub = 8 - saida.length();
 				for(int j = 0; j < sub; j++) {
 					guarda += 0;
@@ -265,7 +253,6 @@ public class HuffmanCode {
 				guarda += saida;
 				binario += guarda;
 				//System.out.println("Foi "+binario);
-
 			}
 			else {
 				//	Arrumar quando os bits estiverem corretos
@@ -273,17 +260,16 @@ public class HuffmanCode {
 				binario += guarda;
 				//System.out.println("FINAL "+binario);
 			}
-
 		}
-		
+
 		System.out.println("FINAL "+binario);
-		
+
 		//	ASCII TO BINARIO
 
 		//String saida = Integer.toBinaryString(name);//Convertendo código ASCII para representação binária
 		//System.out.println("BINARIO -> "+saida);//String com representação binária
 
-
+		name = binario;
 		String decodeText="";
 		HuffmanNode node = (HuffmanNode)tree;
 		for (char code : name.toCharArray()){
