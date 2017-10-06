@@ -2,10 +2,12 @@ package Trabalho_GA2;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
@@ -17,76 +19,91 @@ public class HuffmanCode {
 	 * 
 	 *  Para implementar o Algoritmo de Huffman é necessário conhecer as árvores binárias. 
 	 */
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws Exception {
+		/*
+		//	Endereco do arquivo txt
+		String endereco = "C:/ProgII/teste.txt";
 		
-		//	Testo que deseja codificar
-		String texto = "O trabalho está quase 100%, faltam alguns detalhes como ler e gravar no arquivo txt, e arrumar o bug com com poucos caracteres. Guilherme Santos";
+		//	Le o arquivo txt
+		String texto = read(endereco);
 		
-		//	Faz um array de int com os caracteres do texto
+		//	Exibi o texto
+		System.out.println(texto);
+		
+		//	Faz um array de int com os caracteres de ASCII
 		int[] charFreqs = new int[256];
 		for (char c : texto.toCharArray())
 			charFreqs[c]++;
-		
+
 		//	Criar a arvore Huffman
 		HuffmanTree tree = buildTree(charFreqs);
 		
 		//	Codifica a palavra para Binario
 		String palavra = encode(tree, texto);
-		
+
 		//	Codifica a palavra em ASCII
 		String ascii = binarioToASCII(palavra);
 		
+		//	Endereço que deseja salvar o texto codificado
+		String codificado = "C:/ProgII/codificado.txt";
+		
+		//	Grava no arquivo txt o texto codificado
+		write(ascii, codificado);
+		
+		//	Aqui buga na hora de ler ASCII NO TXT
+		
+		//	Le o texto codificado
+		String codigo = leASCII(codificado);
+		
 		//	Decodifica ASCII para String
-		decode(tree, ascii);
+		decode(tree, codigo);*/
+		
+		//	Se fizer direto não da erro
+		
+		String texto1 = "o trabalho será avaliativo";
+		
+		int[] charFreqs = new int[256];
+		for (char c : texto1.toCharArray())
+			charFreqs[c]++;
+
+		//	Criar a arvore Huffman
+		HuffmanTree tree = buildTree(charFreqs);
+		
+		
+		String codificado = encode(tree, texto1);
+		codificado = binarioToASCII(codificado);
+		decode(tree, codificado);
+
 	}
 
-	public static void burn(String name) throws IOException {
+	public static void write(String name, String endereco) throws IOException {
 		// Grava livro nos arquivo txt
 		File m;
-		m = new File("C:/ProgII/teste.txt");
+		m = new File(endereco);
 
 		try {
-			FileWriter fw = new FileWriter(m, true);
+			FileWriter fw = new FileWriter(m, false);
 			PrintWriter pw = new PrintWriter(fw);
-
-			String line;
-			//for (int i = 0; i <= name.length(); i++) {
-			// if (i < k ) { 
-			String palavra = name;
-			pw.println(palavra);
-
-			/*} else if (i == k) {
-                 String palavra;
-                 System.out.print("Digite uma palavra: ");
-                 palavra = scanner.nextLine()-1;
-                 pw.println(palavra);
-             }*/
-
-			//}
-			pw.close();
-		} catch (IOException e) {
-			System.out.println("Erro ao gravar no arquivo.");
+			
+				String palavra = name;
+				pw.println(palavra);
+				pw.close();
+			} catch (IOException e) {
+				System.out.println("Erro ao gravar no arquivo.");
+			}
 		}
-	}
+	
 
-	public static String read(String file) {
-		String filename = "C:/ProgII/teste.txt";
+	public static String read(String filename) {
 		String code = "";
 		try {
 			FileReader fr = new FileReader(filename);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			String[] a;
-
+				
 			while ((line = br.readLine()) != null) {
 				a = line.split(";");
-				//System.out.println("Titulo : " + a[0]);
-				//System.out.println("Isbn : "+ (a[1]));
-				//System.out.println("Editora : "+ (a[2]));
-				//System.out.println("Url : "+ (a[3]));
-				//System.out.println("PreÃ§o : "+ (a[4]));
-				//System.out.println("");
-
 				code = a[0];
 			}
 			br.close();
@@ -98,6 +115,28 @@ public class HuffmanCode {
 		return code;
 	}
 
+	public static String leASCII(String filename) {
+		String code = "";
+		try {
+			FileReader fr = new FileReader(filename);
+			BufferedReader br = new BufferedReader(fr);
+			String line;
+			String[] a;
+			
+			while ((line = br.readLine()) != null) {
+				//a = line.split("F");
+				code += line;
+			}
+			
+			br.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Arquivo nÃ£o existe.");
+		} catch (IOException e) {
+			System.out.println("Erro na leitura do arquivo");
+		}
+		return code;
+	}
+	
 	public static HuffmanTree buildTree(int[] charFreqs) {
 		// Cria uma Fila de Prioridade 
 		// A Fila será criado pela ordem de frequência da letra no texto
@@ -149,7 +188,7 @@ public class HuffmanCode {
 		int contador = 0;
 		int cont = 0;
 		int a = 0;
-		
+
 		//	Cria um array de char para passar o codigo binario para o array
 		char[] buffer = new char[b.length()];
 
@@ -158,7 +197,7 @@ public class HuffmanCode {
 			buffer[i] = b.charAt(i);
 			//System.out.println("posicao -> "+i +" Valor -> "+buffer[i]);
 		}
-		
+
 		//	Faz um laço para preencher a string salva com 8 bits para gravar em ASCII
 		for(int i = 0; i < b.length(); i++) {
 			contador = i;
@@ -176,7 +215,7 @@ public class HuffmanCode {
 					//	Converte de Decimal para ASCII
 					Character ch = Character.toString((char)c).charAt(0);
 					//System.out.println("Ch -> "+ch);
-					
+
 					//Convertendo código ASCII para representação binária, ERA SO PARA CONTROLE(TESTE)
 					//String saida = Integer.toBinaryString(c);
 					//System.out.println("BINARIO -> "+saida);//String com representação binária
@@ -272,10 +311,10 @@ public class HuffmanCode {
 			}
 		}
 		cont++; 
-		
+
 		//System.out.println("Contador -> "+cont);
 		//System.out.println("Name length -> "+name.length());
-		
+
 		buffer[cont] = name.charAt(cont);
 		int c = buffer[cont];
 		//System.out.println("C "+c);
@@ -289,9 +328,9 @@ public class HuffmanCode {
 		}
 
 		binario += aux;
-	
+
 		System.out.println("Conversão reversa para Binário -> "+binario);
-		
+
 		//	ASCII TO BINARIO
 
 		//String saida = Integer.toBinaryString(name);//Convertendo código ASCII para representação binária
