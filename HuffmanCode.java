@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.*;
 
+//	Guilherme Santos, Mauricio Pretto, Jose Grasulino
 
 public class HuffmanCode {
 	/*
@@ -20,16 +21,16 @@ public class HuffmanCode {
 	 *  Para implementar o Algoritmo de Huffman é necessário conhecer as árvores binárias. 
 	 */
 	public static void main(String[] args) throws Exception {
-		/*
+
 		//	Endereco do arquivo txt
 		String endereco = "C:/ProgII/teste.txt";
-		
+
 		//	Le o arquivo txt
 		String texto = read(endereco);
-		
+
 		//	Exibi o texto
-		System.out.println(texto);
-		
+		System.out.println("O texto que esta no arquivo txt -> "+texto+"\n");
+
 		//	Faz um array de int com os caracteres de ASCII
 		int[] charFreqs = new int[256];
 		for (char c : texto.toCharArray())
@@ -37,42 +38,29 @@ public class HuffmanCode {
 
 		//	Criar a arvore Huffman
 		HuffmanTree tree = buildTree(charFreqs);
-		
+
 		//	Codifica a palavra para Binario
 		String palavra = encode(tree, texto);
 
 		//	Codifica a palavra em ASCII
 		String ascii = binarioToASCII(palavra);
-		
+
 		//	Endereço que deseja salvar o texto codificado
 		String codificado = "C:/ProgII/codificado.txt";
-		
+
 		//	Grava no arquivo txt o texto codificado
 		write(ascii, codificado);
-		
-		//	Aqui buga na hora de ler ASCII NO TXT
-		
-		//	Le o texto codificado
-		String codigo = leASCII(codificado);
-		
-		//	Decodifica ASCII para String
-		decode(tree, codigo);*/
-		
-		//	Se fizer direto não da erro
-		
-		String texto1 = "o trabalho será avaliativo";
-		
-		int[] charFreqs = new int[256];
-		for (char c : texto1.toCharArray())
-			charFreqs[c]++;
 
-		//	Criar a arvore Huffman
-		HuffmanTree tree = buildTree(charFreqs);
-		
-		
-		String codificado = encode(tree, texto1);
-		codificado = binarioToASCII(codificado);
-		decode(tree, codificado);
+		//	Aqui buga na hora de ler ASCII NO TXT
+
+		//	Le o texto codificado
+		String codigo = leASCII(codificado);	//	Aqui ele da esta com problema, na hora de ler o ASCII no TXT
+
+		//	Decodifica ASCII para String
+		decode(tree, codigo);					//	Devido ele ler errado o ASCII do TXT ele converte errado
+
+		//	Decodifica ASCII para String
+		//decode(tree, ascii);					//	Se pegar direto a String em ASCII SEM LER DO TXT ELE FUNCIONA
 
 	}
 
@@ -84,27 +72,27 @@ public class HuffmanCode {
 		try {
 			FileWriter fw = new FileWriter(m, false);
 			PrintWriter pw = new PrintWriter(fw);
-			
-				String palavra = name;
-				pw.println(palavra);
-				pw.close();
-			} catch (IOException e) {
-				System.out.println("Erro ao gravar no arquivo.");
-			}
+			//pw.println("C");	//	Comeco
+			String palavra = name;
+			pw.println(palavra);
+			//pw.print("F");//	Fim
+			pw.close();
+		} catch (IOException e) {
+			System.out.println("Erro ao gravar no arquivo.");
 		}
-	
+	}
 
 	public static String read(String filename) {
+		//	Le o que contem no arquivo passado como parametro
 		String code = "";
 		try {
 			FileReader fr = new FileReader(filename);
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			String[] a;
-				
+
 			while ((line = br.readLine()) != null) {
-				a = line.split(";");
-				code = a[0];
+				code += line;
 			}
 			br.close();
 		} catch (FileNotFoundException e) {
@@ -122,12 +110,15 @@ public class HuffmanCode {
 			BufferedReader br = new BufferedReader(fr);
 			String line;
 			String[] a;
-			
+
+			//if(br.readLine() == "C") {
 			while ((line = br.readLine()) != null) {
-				//a = line.split("F");
+				//if(line == "F")
+				//br.close();
 				code += line;
 			}
-			
+			//}
+
 			br.close();
 		} catch (FileNotFoundException e) {
 			System.out.println("Arquivo nÃ£o existe.");
@@ -136,7 +127,7 @@ public class HuffmanCode {
 		}
 		return code;
 	}
-	
+
 	public static HuffmanTree buildTree(int[] charFreqs) {
 		// Cria uma Fila de Prioridade 
 		// A Fila será criado pela ordem de frequência da letra no texto
@@ -160,11 +151,7 @@ public class HuffmanCode {
 		return trees.poll();
 	}
 
-	/* COMPACTAR a string 
-	 *     Parâmetros de Entrada: tree - Raiz da Árvore de compactação
-	 *     						  encode - Texto original 
-	 *     Parâmetros de Saída: encodeText- Texto Compactado
-	 */ 
+	//	Transforma String em binario
 	public static String encode(HuffmanTree tree, String name){
 		assert tree != null;
 
@@ -174,15 +161,14 @@ public class HuffmanCode {
 		String encodeText = "";
 		for (char c : name.toCharArray()){
 			encodeText+=(getCodes(tree, new StringBuffer(),c));
-			//System.out.println("Encode Text -> "+encodeText);
 		}
 		System.out.println("\nTEXTO COMPACTADO\n");
 		System.out.println("Binario -> "+encodeText+"\n");
 		return encodeText; 			// Retorna o texto Compactado
 	}
 
+	//	Converte de Binario para ASCII
 	public static String binarioToASCII(String b) {
-		//		PRONTO ATÉ
 		String ASCII = "";
 		String salva = "";
 		int contador = 0;
@@ -195,7 +181,6 @@ public class HuffmanCode {
 		//	Cria um laço para passar todos bits para o array de char
 		for(int i = 0; i < buffer.length; i++) {
 			buffer[i] = b.charAt(i);
-			//System.out.println("posicao -> "+i +" Valor -> "+buffer[i]);
 		}
 
 		//	Faz um laço para preencher a string salva com 8 bits para gravar em ASCII
@@ -211,14 +196,9 @@ public class HuffmanCode {
 					}
 					//	Converter BINARIO PARA Decimal
 					int c = Integer.parseInt(salva, 2);
-					//System.out.println("C -> "+c);
 					//	Converte de Decimal para ASCII
 					Character ch = Character.toString((char)c).charAt(0);
-					//System.out.println("Ch -> "+ch);
 
-					//Convertendo código ASCII para representação binária, ERA SO PARA CONTROLE(TESTE)
-					//String saida = Integer.toBinaryString(c);
-					//System.out.println("BINARIO -> "+saida);//String com representação binária
 					ASCII += ch;
 					//	Zera a varivel salva;
 					salva = "";
@@ -235,7 +215,7 @@ public class HuffmanCode {
 					}
 					//	Converter BINARIO PARA DECIMAL
 					int c = Integer.parseInt(salva, 2);	
-					//	Converte de Decimal para ASCII
+					//	Converte DECIMAL PARA ASCII
 					Character ch = Character.toString((char)c).charAt(0);
 					ASCII += ch;
 					salva = "";
@@ -243,19 +223,18 @@ public class HuffmanCode {
 				}
 			}
 		}
+
 		//	Faz a gravação dos bits restantes
 		for(int i = a+1; i <= contador; i++) {
 			//	ATRIBUI UM PARA NAO PERDER OS ZEROS DA FRENTE
 			if(a+1 == i)
 				salva +=1;
-			//System.out.println("salva "+salva);
 			salva += buffer[i];
 		}
-		//System.out.println("Salva "+salva);
-		int c = Integer.parseInt(salva, 2);					//Converter BINARIO PARA DECIMAL
-		//System.out.println("C -> "+c);
+		//	Converter BINARIO PARA DECIMAL
+		int c = Integer.parseInt(salva, 2);		
+		//	Converte DECIMAL PARA ASCII
 		Character ch = Character.toString((char)c).charAt(0);
-		//System.out.println("Decdasdasdasdasdsadimal "+ch);
 		ASCII += ch;
 
 		System.out.println("ASCII -> "+ASCII+"\n");
@@ -263,11 +242,7 @@ public class HuffmanCode {
 	}
 
 
-	/* DECODIFICAR a string
-	 *     Parâmetros de Entrada: tree - Raiz da Árvore de compactação
-	 *     						  encode - Texto Compactado
-	 *     Parâmetros de Saída: decodeText- Texto decodificado
-	 */
+	//	DECODIFICA ASCII PARA BINARIO
 	public static String decode(HuffmanTree tree, String name) {
 		String saida = "";
 		String binario = "";
@@ -277,8 +252,7 @@ public class HuffmanCode {
 
 		char[] buffer = new char[name.length()];
 
-		//System.out.println("LENGTH "+name.length());
-
+		//	FAZ O LAÇO PARA GUARDAR STRING EM UM ARRAY DE CHAR 
 		for(int i = 0; i < name.length()-1; i++) {
 			cont = i;
 			int sub = 0;
@@ -286,55 +260,53 @@ public class HuffmanCode {
 
 			//	Passa a string ASCII para um array de char
 			buffer[i] = name.charAt(i);
-			//System.out.println("posicao -> "+i +" Valor -> "+buffer[i]);
+
 			//	Transforma ASCII em DECIMAL
 			int c = buffer[i];
-			//System.out.println("Vaii"+c);
+
 			//	Converte DECIMAL EM BINARIO
 			saida = Integer.toBinaryString(c);
-			//System.out.println("Arrumar zeros -> "+saida);	
 
-			if(saida.length() != 8) {		
+			//	VERIFICA SE TEM 8 BITS NA VARIAVEL SAIDA
+			if(saida.length() != 8) {
+				//	SE NAO TIVER TEM QUE COMPLETAR COM OS ZEROS QUE FORAM CORTADOS
 				sub = 8 - saida.length();
+				//	GUARDA OS ZEROS QUE FORAM CORTADOS
 				for(int j = 0; j < sub; j++) {
 					guarda += 0;
 				}
+				//	RECEBE O RESTO DOS BITS, FICANDO COM 8 BITS COMPLETOS PARA CONVERSÃO
 				guarda += saida;
 				binario += guarda;
-				//System.out.println("Foi "+binario);
 			}
 			else {
-				//	Arrumar quando os bits estiverem corretos
+				//	SE TIVER 8 BITS GUARDA PARA CONVERSÃO NORMAL
 				guarda += saida;
 				binario += guarda;
-				//System.out.println("FINAL "+binario);
 			}
 		}
 		cont++; 
 
-		//System.out.println("Contador -> "+cont);
-		//System.out.println("Name length -> "+name.length());
+		//	CONVERTE OS BITS RESTANTES QUE NAO CHEGARAM A FECHAR 8 BITS
 
 		buffer[cont] = name.charAt(cont);
 		int c = buffer[cont];
-		//System.out.println("C "+c);
+
 		saida = Integer.toBinaryString(c);
-		//System.out.println("saidaaaa "+saida);
 
 		String aux = "";
+
+		//	SALVA TODOS OS BITS EM AUX
 		for(int i = 1; i < saida.length(); i++) {
 			aux += saida.charAt(i);
-			//System.out.println("auxiliar "+aux);
 		}
 
+		//	GUARDA JUNTO COM OS OUTROS BITS
 		binario += aux;
 
 		System.out.println("Conversão reversa para Binário -> "+binario);
 
-		//	ASCII TO BINARIO
-
-		//String saida = Integer.toBinaryString(name);//Convertendo código ASCII para representação binária
-		//System.out.println("BINARIO -> "+saida);//String com representação binária
+		//	FAZ A CONVERSAO DE BINARIO PARA STRING
 
 		name = binario;
 		String decodeText="";
@@ -424,5 +396,4 @@ public class HuffmanCode {
 		}
 		return null;
 	}
-
 }
