@@ -14,12 +14,13 @@ import java.util.*;
 //	Guilherme Santos, Mauricio Pretto, Jose Grasulino
 
 public class HuffmanCode {
-	/*
-	 * Implementação do Algoritmo de Huffman
-	 * Compactação e Descompatação de um texto
-	 * 
-	 *  Para implementar o Algoritmo de Huffman é necessário conhecer as árvores binárias. 
-	 */
+
+	// Implementação do Algoritmo de Huffman
+	// Compactação e Descompatação de um texto
+
+
+	//	Metodo main
+
 	public static void main(String[] args) throws Exception {
 
 		//	Endereco do arquivo txt
@@ -64,26 +65,27 @@ public class HuffmanCode {
 
 	}
 
+	// Grava o texto no arquivo txt
+
 	public static void write(String name, String endereco) throws IOException {
-		// Grava livro nos arquivo txt
 		File m;
 		m = new File(endereco);
 
 		try {
 			FileWriter fw = new FileWriter(m, false);
 			PrintWriter pw = new PrintWriter(fw);
-			//pw.println("C");	//	Comeco
+			//pw.println("C");		//	Comeco
 			String palavra = name;
 			pw.println(palavra);
-			//pw.print("F");//	Fim
+			//pw.print("F");		//	Fim
 			pw.close();
 		} catch (IOException e) {
 			System.out.println("Erro ao gravar no arquivo.");
 		}
 	}
 
+	//	Le o que contem no arquivo passado como parametro
 	public static String read(String filename) {
-		//	Le o que contem no arquivo passado como parametro
 		String code = "";
 		try {
 			FileReader fr = new FileReader(filename);
@@ -103,6 +105,7 @@ public class HuffmanCode {
 		return code;
 	}
 
+	//	Metodo read especifico para ler ASCII
 	public static String leASCII(String filename) {
 		String code = "";
 		try {
@@ -111,9 +114,9 @@ public class HuffmanCode {
 			String line;
 			String[] a;
 
-			//if(br.readLine() == "C") {
+			//if(br.readLine() == "C") {	//	Comeco
 			while ((line = br.readLine()) != null) {
-				//if(line == "F")
+				//if(line == "F")			//	Fim
 				//br.close();
 				code += line;
 			}
@@ -128,10 +131,12 @@ public class HuffmanCode {
 		return code;
 	}
 
+	//	Cria a arvore Huffman com o array de char passado
 	public static HuffmanTree buildTree(int[] charFreqs) {
 		// Cria uma Fila de Prioridade 
 		// A Fila será criado pela ordem de frequência da letra no texto
 		PriorityQueue<HuffmanTree> trees = new PriorityQueue<HuffmanTree>();
+
 		// Criar as Folhas da Árvore para cada letra 
 		for (int i = 0; i < charFreqs.length; i++){
 			if (charFreqs[i] > 0)
@@ -140,6 +145,7 @@ public class HuffmanCode {
 		// Percorre todos os elementos da fila
 		// Criando a árvore binária de baixo para cima
 		while (trees.size() > 1) {
+
 			// Pega os dois nós com menor frequência
 			HuffmanTree a = trees.poll(); // poll - Retorna o próximo nó da Fila ou NULL se não tem mais
 			HuffmanTree b = trees.poll(); // poll - Retorna o próximo nó da Fila ou NULL se não tem mais
@@ -156,6 +162,7 @@ public class HuffmanCode {
 		assert tree != null;
 
 		System.out.println("SÍMBOLO\tQUANTIDADE\tHUFFMAN CÓDIGO\n");
+		//	Exibi o codigo dos caracteres
 		printCodes(tree, new StringBuffer());
 
 		String encodeText = "";
@@ -164,7 +171,9 @@ public class HuffmanCode {
 		}
 		System.out.println("\nTEXTO COMPACTADO\n");
 		System.out.println("Binario -> "+encodeText+"\n");
-		return encodeText; 			// Retorna o texto Compactado
+
+		//	Retorna o texto Compactado
+		return encodeText; 			
 	}
 
 	//	Converte de Binario para ASCII
@@ -329,14 +338,12 @@ public class HuffmanCode {
 			}
 		} // End for
 		System.out.println("\nTexto decodificado -> "+decodeText+"\n");
-		return decodeText; 						// Retorna o texto Decodificado
-	}    
 
-	/* 
-	 * Método para percorrer a Árvore e mostra a tabela de compactação
-	 *     Parâmetros de Entrada: tree - Raiz da Árvore de compactação
-	 *     						  prefix - texto codificado com 0 e/ou 1
-	 */
+		// Retorna o texto Decodificado
+		return decodeText; 						
+	}
+
+	//	Método para percorrer a Árvore e mostra a tabela de compactação
 	public static void printCodes(HuffmanTree tree, StringBuffer prefix) {
 		assert tree != null;
 
@@ -349,25 +356,20 @@ public class HuffmanCode {
 		} else if (tree instanceof HuffmanNode) {
 			HuffmanNode node = (HuffmanNode)tree;
 
-			// traverse left
+			// Lado esquerdo
 			prefix.append('0');
 			printCodes(node.left, prefix);
 			prefix.deleteCharAt(prefix.length()-1);
 
-			// traverse right
+			// Lado direito
 			prefix.append('1');
 			printCodes(node.right, prefix);
 			prefix.deleteCharAt(prefix.length()-1);
 		}
 	}
 
-	/* 
-	 * Método para retornar o código compactado de uma letra (w)
-	 *     Parâmetros de Entrada: tree - Raiz da Árvore de compactação
-	 *     						  prefix - texto codificado com 0 e/ou 1
-	 *     						  w - Letra
-	 *     Parâmetros de Saída: prefix- Letra codificada
-	 */
+
+	//	Método para retornar o código compactado de uma letra (w)
 	public static String getCodes(HuffmanTree tree, StringBuffer prefix, char w) {
 		assert tree != null;
 
