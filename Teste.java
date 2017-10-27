@@ -4,12 +4,18 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Teste {
 	public static void main(String[] args) {
 		int x = 128;
-		int[] Ascendente= new int[x];
+		int []Ascendente= new int[x];
 		int []Descendente = new int [x];
 		int []random = new int[x];
 		int []random_rep = new int[x];
 
-		geraAscendente(Ascendente, x);
+		long start = System.currentTimeMillis();
+		bubbleSort(geraAscendente(Ascendente, x));
+		long finish = System.currentTimeMillis();
+		long total = finish - start;
+		//System.out.println("Tempo de ordenação BubbleSort "+finish);
+		//System.out.println("start "+start);
+		
 		geraDescendente(Descendente, x);
 		geraRandom(random, x);
 		geraRandomRepetida(random_rep, x);
@@ -76,44 +82,46 @@ public class Teste {
 		}
 	}
 
-	public static <T extends Comparable<T>> void bubbleSort(T[] a) {
-		boolean exchange;
-		do {
-			exchange = false;
-			for (int j = 0; j < a.length - 1; j++) {
-				if (a[j].compareTo(a[j + 1]) > 0) {
-					T tmp = a[j];
-					a[j] = a[j + 1];
-					a[j + 1] = tmp;
-					exchange = true;
-				}
-			} 
-		} while (exchange);
-	}
-
-	public static <T extends Comparable<T>> void insertionSort(T[] a) {
+	public static void insertionSort(int[] a) {
 		for (int i = 1; i < a.length; i++) {
-			T tmp = a[i];
-			int j;
-			for (j = i; j > 0 && a[j - 1].compareTo(tmp) > 0; j--) {
+			int j = i;
+			int B = a[i];
+			while ((j > 0) && (a[j - 1] > B)) {
 				a[j] = a[j - 1];
+				j--;
 			}
-			a[j] = tmp;
+			a[j] = B;
 		}
 	}
 
-
-	public static <T extends Comparable<T>> void selectionSort(T[] a) { 
-		for (int min, i = 0; i < a.length - 1; i++) {
-			min = i;
-			for (int j = i + 1; j < a.length; j++) {
-				if (a[j].compareTo(a[min]) < 0) {
-					min = j;
+	public static void bubbleSort(int[] a) {
+		int i = a.length - 1;
+		while (i > 0) {
+			int last = 0;
+			for (int j = 0; j < i; j++) {
+				if (a[j] > a[j + 1]) {
+					int temp = a[j];
+					a[j] = a[j + 1];
+					a[j + 1] = temp;
+					last = j;
 				}
 			}
-			T tmp = a[i];
-			a[i] = a[min];
-			a[min] = tmp;
+			i = last;
+		}
+	}
+
+	public static void selectionSort(int[] a) {
+		int min= 0;
+		for (int i = 0;i < a.length - 1; i++) {
+			min = i;
+			for (int j = i + 1; j < a.length; j++) {
+				if (a[j] < a[min]) {
+					min = j;
+				}
+				int temp = a[i];
+				a[i] = a[min];
+				a[min] = temp;
+			}
 		}
 	}
 }
