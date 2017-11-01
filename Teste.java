@@ -3,22 +3,38 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Teste {
 	public static void main(String[] args) {
-		int x = 128;
+		int x = 9999;
+		long acumula = 0;
 		int []Ascendente= new int[x];
 		int []Descendente = new int [x];
 		int []random = new int[x];
 		int []random_rep = new int[x];
 
-		long start = System.currentTimeMillis();
-		bubbleSort(geraAscendente(Ascendente, x));
-		long finish = System.currentTimeMillis();
-		long total = finish - start;
-		//System.out.println("Tempo de ordenação BubbleSort "+finish);
-		//System.out.println("start "+start);
-		
+		for(int i = 0; i < 10; i++) {
+			long start = System.currentTimeMillis();
+			bubbleSort(geraAscendente(Ascendente, x));
+			long finish = System.currentTimeMillis();
+			//long total = finish - start;
+			acumula += start;
+			System.out.println("Tempo de ordenação BubbleSort "+start);
+		}
+		acumula = acumula/10;
+		System.out.println("Media -> "+acumula);
+
+		//CALCULAR DESVIO PADRAO
+
+
 		geraDescendente(Descendente, x);
 		geraRandom(random, x);
 		geraRandomRepetida(random_rep, x);
+	}
+
+	public static long calculaDesvio(int qtd, int total) {
+		long desvio = total/qtd;
+		/*
+		 https://www.easycalculation.com/pt/statistics/standard-deviation.php
+		 */
+		return desvio;
 	}
 
 	public static int[] geraAscendente(int array[], int size) {
