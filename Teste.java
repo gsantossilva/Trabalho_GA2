@@ -1,3 +1,5 @@
+package Trab_GB_Estruturas;
+
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -5,39 +7,76 @@ public class Teste {
 	public static void main(String[] args) {
 		int x = 9999;
 		long acumula = 0;
-		int []Ascendente= new int[x];
-		int []Descendente = new int [x];
-		int []random = new int[x];
-		int []random_rep = new int[x];
+		long []Ascendente= new long[x];
+		long []Descendente = new long [x];
+		long []random = new long[x];
+		long []random_rep = new long[x];
 
+		long[] k = geraAscendente(Ascendente, x);
+		long []tempo = new long[x];
+		
 		for(int i = 0; i < 10; i++) {
 			long start = System.currentTimeMillis();
-			bubbleSort(geraAscendente(Ascendente, x));
+			long array[] = k.clone();
+			bubbleSort(array);
 			long finish = System.currentTimeMillis();
-			//long total = finish - start;
-			acumula += start;
-			System.out.println("Tempo de ordenação BubbleSort "+start);
+			long total = finish - start;
+			tempo[i] = total;
+			acumula += total;
+			//System.out.println("Tempo de ordenação BubbleSort "+start);
 		}
-		acumula = acumula/10;
+		acumula = acumula/x;
 		System.out.println("Media -> "+acumula);
-
+		
 		//CALCULAR DESVIO PADRAO
+		calculaDesvio(x, tempo, acumula);
+		
 
-
-		geraDescendente(Descendente, x);
-		geraRandom(random, x);
-		geraRandomRepetida(random_rep, x);
+		//geraDescendente(Descendente, x);
+		//geraRandom(random, x);
+		//geraRandomRepetida(random_rep, x);
 	}
-
-	public static long calculaDesvio(int qtd, int total) {
-		long desvio = total/qtd;
+	
+	public static long calculaDesvio(int qtd, long[] ar, long total) {
+		long media = total/qtd;
+		long desvio = 0;
+		long array[] = ar.clone();
+		for(int i = 0; i < qtd-1; i++) {
+			array[i] = array[i] - media;
+		}
+		for(int i = 0; i < qtd-1; i++) {
+			array[i] = array[i]*array[i];
+		}
+		for(int i = 0; i < qtd-1; i++) {
+			desvio += array[i]*array[i];
+		}
+		desvio = desvio/(qtd-1);
+		desvio = (long) Math.sqrt(desvio);
+		for(int i = 0; i < qtd-1; i++) {
+			if(ar[i] < (desvio+ar[i]) && ar[i] > (desvio-ar[i])) {
+				ar[i] = ar[i];
+			}else {
+				ar[i] = -1;
+			}
+		}
+		int cont = 1;
+		long acumula = 0;
+		for(int i = 0; i < qtd-1; i++) {
+			if(ar[i] != -1) {
+				acumula += ar[i];
+				cont+=1;
+			}
+		}
+		desvio = acumula / cont-1;
+		
+		System.out.println(desvio);
 		/*
 		 https://www.easycalculation.com/pt/statistics/standard-deviation.php
 		 */
 		return desvio;
 	}
 
-	public static int[] geraAscendente(int array[], int size) {
+	public static long[] geraAscendente(long array[], int size) {
 		for(int i = 0; i < size; i++) {
 			array[i] = i+1;
 			//System.out.println(array[i]);
@@ -110,13 +149,13 @@ public class Teste {
 		}
 	}
 
-	public static void bubbleSort(int[] a) {
+	public static long[] bubbleSort(long[] a) {
 		int i = a.length - 1;
 		while (i > 0) {
 			int last = 0;
 			for (int j = 0; j < i; j++) {
 				if (a[j] > a[j + 1]) {
-					int temp = a[j];
+					long temp = a[j];
 					a[j] = a[j + 1];
 					a[j + 1] = temp;
 					last = j;
@@ -124,6 +163,7 @@ public class Teste {
 			}
 			i = last;
 		}
+		return a;
 	}
 
 	public static void selectionSort(int[] a) {
@@ -139,5 +179,6 @@ public class Teste {
 				a[min] = temp;
 			}
 		}
+
 	}
 }
