@@ -1,4 +1,4 @@
-package Trab_GB_Estruturas;
+package Trab_GB;
 
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
@@ -16,22 +16,21 @@ public class Teste {
 		long []tempo = new long[x];
 		
 		for(int i = 0; i < 10; i++) {
-			long start = System.currentTimeMillis();
+			long start = System.nanoTime();
 			long array[] = k.clone();
 			bubbleSort(array);
-			long finish = System.currentTimeMillis();
+			long finish = System.nanoTime();
 			long total = finish - start;
 			tempo[i] = total;
 			acumula += total;
-			//System.out.println("Tempo de ordenação BubbleSort "+start);
+			System.out.println("Tempo de ordenação BubbleSort "+total);
 		}
 		acumula = acumula/x;
-		System.out.println("Media -> "+acumula);
+		//System.out.println("Media -> "+acumula);
 		
 		//CALCULAR DESVIO PADRAO
 		calculaDesvio(x, tempo, acumula);
 		
-
 		//geraDescendente(Descendente, x);
 		//geraRandom(random, x);
 		//geraRandomRepetida(random_rep, x);
