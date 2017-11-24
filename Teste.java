@@ -1,32 +1,41 @@
-package Trab_GB_Estruturas;
-
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Teste {
 	public static void main(String[] args) {
-		int x = 32768;
+
+		/*
+		 * O valor de x determina qual o tamanho do array
+		 */
+
+		int x = 128;
 		long acumula = 0;
+
+		/*
+		 * Os quatro tipos de array
+		 */
 
 		long []Ascendente= new long[x];
 		long []Descendente = new long [x];
 		long []random = new long[x];
 		long []random_rep = new long[x];
 
-		//geraDescendente(Descendente, x);
-		//geraRandom(random, x);
-		//geraRandomRepetida(random_rep, x);
-
 		System.out.println("n -> "+ x);
 
+		/*
+		 * Preenche o array conforme os tipos
+		 */
+
 		long[] k = geraAscendente(Ascendente, x);
+		//long[] k = geraDescendente(Descendente, x);
+		//long[] k = geraRandom(random, x);
+		//long[] k = geraRandomRepetida(random_rep, x);
+
 		long []tempo = new long[x];
 
 		//	BUBBLE
 
-		/*
-		
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long array[] = k.clone();
 			bubbleSort(array);
@@ -39,7 +48,7 @@ public class Teste {
 
 		//	INSERT
 
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long insertionSort[] = k.clone();
 			insertionSort(insertionSort);
@@ -49,12 +58,10 @@ public class Teste {
 			acumula += total;
 		}
 		System.out.println("Insert -> "+calculaDesvio(x, tempo, acumula));
-		
-		*/
 
 		//	SELECTION
 
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long selectionSort[] = k.clone();
 			selectionSort(selectionSort);
@@ -67,9 +74,7 @@ public class Teste {
 
 		//	HEAP
 
-		/*
-		
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long heapSort[] = k.clone();
 			heapSort(heapSort);
@@ -82,7 +87,7 @@ public class Teste {
 
 		//	SHELL
 
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long shellSort[] = k.clone();
 			shellSort(shellSort);
@@ -95,7 +100,7 @@ public class Teste {
 
 		//	MERGE
 
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long mergeSort[] = k.clone();
 			mergeSort(mergeSort);
@@ -108,7 +113,7 @@ public class Teste {
 
 		//	QUICK
 
-		for(int i = 0; i < x; i++) {
+		for(int i = 0; i < 10; i++) {
 			long start = System.nanoTime();
 			long quickSort[] = k.clone();
 			quickSort(quickSort);
@@ -119,56 +124,55 @@ public class Teste {
 		}
 		System.out.println("Quick -> "+calculaDesvio(x, tempo, acumula));
 
-	*/
-
 	}
 
 	private static void quickSort(long[] quickSort) {
 		// TODO Auto-generated method stub
-
 	}
 
 	private static void mergeSort(long[] mergeSort) {
 		// TODO Auto-generated method stub
-
 	}
 
 	private static void shellSort(long[] shellSort) {
 		// TODO Auto-generated method stub
-
 	}
 
 	private static void heapSort(long[] selectionSort) {
 		// TODO Auto-generated method stub
-
 	}
 
+	/*
+	 * Faz o calculo do desvio padrão
+	 */
+
 	public static long calculaDesvio(int qtd, long[] ar, long total) {
+		//	Faz a média
 		long media = total/qtd;
 		long desvio = 0;
 		long array[] = ar.clone();
 
 		for(int i = 0; i < qtd; i++) {
-			//System.out.println("Array -> "+array[i]);
+			//	Para encontrar a variância, subtraia a média de cada um dos valores
 			array[i] = array[i] - media;
-			//System.out.println("Array -> "+array[i]+"\n");
 		}
 		for(int i = 0; i < qtd; i++) {
-			//System.out.println("Simple -> "+array[i]);
+			//	Eleva ao quadrado
 			array[i] = array[i]*array[i];
-			//System.out.println("O dobro -> "+array[i]+"\n");
 		}
 		for(int i = 0; i < qtd; i++) {
+			//	Acumulta todos valores na varievel desvio
 			desvio += array[i];
 		}
 
+		//	Divida a soma dos quadrados por (n-1) 
 		desvio = desvio/(qtd-1);
 
-		//System.out.println("Desvio -> "+desvio);
-
+		//	Encontra a raiz quadrada da variância, 
 		desvio = (long) Math.sqrt(desvio);
 
 		for(int i = 0; i < qtd; i++) {
+			//	Verifica se esta entre o desvio padrão maximo e minimo
 			if(ar[i] > (desvio+ar[i]) && ar[i] < (desvio-ar[i])) 
 				ar[i] = -1;
 		}
@@ -176,28 +180,32 @@ public class Teste {
 		int cont = 0;
 		long acumula = 0;
 		for(int i = 0; i < qtd; i++) {
+			//	Pega somente os valores que estão entre o padrão maximo e minimo
 			if(ar[i] != -1) {
+				//	Acumula todos o valores
 				acumula += ar[i];
+				//	Contador para dividir pelos valores validos
 				cont++;
 			}
 		}
+
+		//	Faz a divisão do total pelo numero de valores validos
 		desvio = acumula / cont;
 
-		/*
-		 https://www.easycalculation.com/pt/statistics/standard-deviation.php
-		 */
 		return desvio;
 	}
 
+	//	Gera valores do 1 até o size +1
 	public static long[] geraAscendente(long array[], int size) {
 		for(int i = 0; i < size; i++) {
 			array[i] = i+1;
-			//System.out.println(array[i]);
+			System.out.println(array[i]);
 		}
 		return array;
 	}
 
-	public static int[] geraDescendente(int array[], int size) {
+	//	Gera valores do size -1 até 0 
+	public static long[] geraDescendente(long array[], int size) {
 		size = size -1;
 		for(int i = size; i != 0; i--) {
 			array[i] = i;
@@ -206,45 +214,46 @@ public class Teste {
 		return array;
 	}
 
-	public static int[] geraRandom(int array[], int size) {
+	//	Gera valores unicos aleatórios
+	public static long[] geraRandom(long array[], int size) {
+		//	Preenche valores unicos no vetor
 		for(int i = 0; i < size; i++) {
 			array[i] = i+1;
-			//System.out.println("Valor -> "+i);
 		}
+		//	Embaralha todos os dados do vetor
 		shuffleArray(array);
-		for(int i = 0; i < size; i++) {
-			//System.out.println("Posição -> "+i +" Valor -> " +array[i]);
-		}
 		return array;
 	}
 
-	public static int[] geraRandomRepetida(int array[], int size) {
+	//	Gera valores aleatórios repetidos
+	public static long[] geraRandomRepetida(long array[], int size) {
 		int count = 0;
 		int valor = 1;
+		//	Preenche com 20 valores repetidos
 		for(int i = 0; i < size; i++) {
 			if(count < 19) {
 				array[i] = valor;
 				count++;
+				//	Incrementa 1 no valor do vetor após 20 inserções iguais
 			}else {
 				array[i] = valor;
 				count = 0;
 				valor++;
 			}
-			//System.out.println("Valor -> "+i);
 		}
+		//	Embaralha todos os dados do vetor
 		shuffleArray(array);
-		for(int i = 0; i < size; i++) {
-			//System.out.println("Posição -> "+i +" Valor -> " +array[i]);
-		}
 		return array;
 	}
 
-	static void shuffleArray(int[] ar) {
+
+	//	Metodo que faz a troca de posições do array
+	static void shuffleArray(long[] ar) {
 		Random rnd = ThreadLocalRandom.current();
 		for (int i = ar.length - 1; i > 0; i--) {
 			int index = rnd.nextInt(i + 1);
 			// Simple swap
-			int a = ar[index];
+			long a = ar[index];
 			ar[index] = ar[i];
 			ar[i] = a;
 		}
@@ -293,21 +302,4 @@ public class Teste {
 			}
 		}
 	}
-
-	/*public static <T extends Comparable<T>> void shellSort(T[] a) {
-		int h = 1;
-		while (h * 3 + 1 < a.length) h = 3 * h + 1;
-		while (h > 0) {
-			for (int i = h; i < a.length; i++) {
-				T tmp = a[i];
-				int j;
-				for (j = i; j >= h && a[j - h].compareTo(tmp) > 0; j -= h) {
-					a[j] = a[j - h];
-				}
-				a[j] = tmp;
-			}
-			h /= 3;
-		}
-	} */
-
 }
